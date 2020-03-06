@@ -61,9 +61,9 @@ graph_rust <- erdos_rust(n, p)
 graph_rcpp <- erdos_rcpp(n, p)
 
 mean(sapply(graph_rust, length))
-#> [1] 5.005
+#> [1] 5.054
 mean(sapply(graph_rcpp, length))
-#> [1] 5.01
+#> [1] 4.98
 ```
 
 ## benchmarks - dense graphs
@@ -86,14 +86,14 @@ microbenchmark(
 )
 #> Unit: milliseconds
 #>                    expr    min     lq   mean median     uq    max neval
-#>  erdos_rust(10000, 0.1)  476.2  481.2  487.2  485.6  489.8  513.3    10
-#>  erdos_rcpp(10000, 0.1)  765.9  769.5  777.3  772.0  775.1  808.0    10
-#>  erdos_rust(10000, 0.2)  574.8  576.7  585.1  582.7  591.5  602.2    10
-#>  erdos_rcpp(10000, 0.2) 1017.8 1028.8 1034.3 1033.2 1042.5 1047.9    10
-#>  erdos_rust(10000, 0.4)  751.1  753.9  772.4  767.9  792.3  797.0    10
-#>  erdos_rcpp(10000, 0.4) 1546.3 1557.1 1579.4 1574.0 1588.3 1655.0    10
-#>  erdos_rust(10000, 0.8)  839.1  900.7  917.3  930.4  943.1  983.1    10
-#>  erdos_rcpp(10000, 0.8) 2106.3 2145.4 2186.9 2189.0 2243.4 2249.7    10
+#>  erdos_rust(10000, 0.1)  468.1  475.8  478.1  476.8  482.2  488.8    10
+#>  erdos_rcpp(10000, 0.1)  763.6  765.7  768.2  766.8  770.6  774.0    10
+#>  erdos_rust(10000, 0.2)  568.0  574.9  580.6  578.6  582.5  600.8    10
+#>  erdos_rcpp(10000, 0.2) 1008.9 1023.1 1025.2 1026.4 1027.5 1037.6    10
+#>  erdos_rust(10000, 0.4)  747.4  750.5  792.2  773.7  783.0 1021.3    10
+#>  erdos_rcpp(10000, 0.4) 1542.3 1545.4 1562.5 1554.0 1582.2 1591.3    10
+#>  erdos_rust(10000, 0.8)  801.3  896.1  899.8  918.3  930.7  949.8    10
+#>  erdos_rcpp(10000, 0.8) 2123.6 2149.8 2189.9 2182.4 2208.2 2306.5    10
 ```
 
 ## benchmarks - sparse graph
@@ -108,8 +108,8 @@ avk <- 5
 p <- avk / (n - 1)
 microbenchmark(fast_erdos_rust(n, p), times = 10)
 #> Unit: milliseconds
-#>                   expr   min    lq  mean median    uq   max neval
-#>  fast_erdos_rust(n, p) 638.6 639.7 655.7    647 663.2 714.7    10
+#>                   expr   min  lq  mean median    uq   max neval
+#>  fast_erdos_rust(n, p) 663.3 674 691.1  683.9 701.2 743.5    10
 ```
 
 This even compares well with the implementation in igraph (although
@@ -119,6 +119,6 @@ igraph has a far more complete graph representation than this toy code):
 library(igraph)
 microbenchmark(sample_gnp(n, p), times = 10)
 #> Unit: milliseconds
-#>              expr   min    lq mean median    uq   max neval
-#>  sample_gnp(n, p) 606.6 787.9  801  806.9 812.6 951.3    10
+#>              expr min    lq  mean median    uq   max neval
+#>  sample_gnp(n, p) 784 811.6 833.3  820.4 827.6 963.5    10
 ```
