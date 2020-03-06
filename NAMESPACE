@@ -1,0 +1,7 @@
+useDynLib(RcppRustCompare, .registration = TRUE)
+importFrom(Rcpp,sourceCpp)
+export(erdos_r)
+export(erdos_rcpp)
+export(erdos_rust)
+export(fast_erdos_rust)
+

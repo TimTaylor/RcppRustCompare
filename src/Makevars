@@ -1,0 +1,13 @@
+LIBDIR = rustgraphs/target/release
+STATLIB = $(LIBDIR)/librustgraphs.a
+PKG_LIBS = -L$(LIBDIR) -lrustgraphs -lresolv
+
+all: clean
+
+$(SHLIB): $(STATLIB)
+
+$(STATLIB):
+	cargo build --release --manifest-path=rustgraphs/Cargo.toml
+
+clean:
+	rm -Rf $(SHLIB) $(STATLIB) $(OBJECTS) rustgraphs/target
