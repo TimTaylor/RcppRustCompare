@@ -7,6 +7,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+![R-CMD-check](https://github.com/tjtnew/RcppRustCompare/workflows/R-CMD-check/badge.svg?branch=master)
 <!-- badges: end -->
 
 Quick comparison of Rust/Rcpp integration in R vis-a-vis the generation
@@ -26,7 +27,13 @@ installing Rust. Note that `cargo` is only needed at build-time.
 ``` r
 library(RcppRustCompare)
 library(ggraph)
+#> Loading required package: ggplot2
 library(tidygraph)
+#> 
+#> Attaching package: 'tidygraph'
+#> The following object is masked from 'package:stats':
+#> 
+#>     filter
 
 # small graphs
 n <- 50 # size of graph
@@ -61,9 +68,9 @@ graph_rust <- erdos_rust(n, p)
 graph_rcpp <- erdos_rcpp(n, p)
 
 mean(sapply(graph_rust, length))
-#> [1] 5.054
+#> [1] 4.957
 mean(sapply(graph_rcpp, length))
-#> [1] 4.98
+#> [1] 4.9778
 ```
 
 ## benchmarks - dense graphs
@@ -85,15 +92,24 @@ microbenchmark(
   times = 10
 )
 #> Unit: milliseconds
-#>                    expr    min     lq   mean median     uq    max neval
-#>  erdos_rust(10000, 0.1)  468.1  475.8  478.1  476.8  482.2  488.8    10
-#>  erdos_rcpp(10000, 0.1)  763.6  765.7  768.2  766.8  770.6  774.0    10
-#>  erdos_rust(10000, 0.2)  568.0  574.9  580.6  578.6  582.5  600.8    10
-#>  erdos_rcpp(10000, 0.2) 1008.9 1023.1 1025.2 1026.4 1027.5 1037.6    10
-#>  erdos_rust(10000, 0.4)  747.4  750.5  792.2  773.7  783.0 1021.3    10
-#>  erdos_rcpp(10000, 0.4) 1542.3 1545.4 1562.5 1554.0 1582.2 1591.3    10
-#>  erdos_rust(10000, 0.8)  801.3  896.1  899.8  918.3  930.7  949.8    10
-#>  erdos_rcpp(10000, 0.8) 2123.6 2149.8 2189.9 2182.4 2208.2 2306.5    10
+#>                    expr      min       lq     mean   median       uq       max
+#>  erdos_rust(10000, 0.1) 434.0135 436.3578 438.0507 436.8575 437.3080  451.2540
+#>  erdos_rcpp(10000, 0.1) 468.3882 470.0834 480.9029 471.1145 474.8565  521.2699
+#>  erdos_rust(10000, 0.2) 513.4064 516.7872 530.4602 521.0933 523.1697  577.7309
+#>  erdos_rcpp(10000, 0.2) 566.8809 569.0271 586.3376 572.2309 618.9357  626.5065
+#>  erdos_rust(10000, 0.4) 670.1642 711.0425 713.2423 713.8142 715.2291  748.6321
+#>  erdos_rcpp(10000, 0.4) 746.2215 793.3890 798.5018 796.7363 811.3734  859.9656
+#>  erdos_rust(10000, 0.8) 791.7960 846.4063 873.6639 873.6082 912.3787  926.3721
+#>  erdos_rcpp(10000, 0.8) 825.4098 848.9763 897.0866 878.8931 897.4752 1135.6321
+#>  neval
+#>     10
+#>     10
+#>     10
+#>     10
+#>     10
+#>     10
+#>     10
+#>     10
 ```
 
 ## benchmarks - sparse graph
@@ -108,8 +124,10 @@ avk <- 5
 p <- avk / (n - 1)
 microbenchmark(fast_erdos_rust(n, p), times = 10)
 #> Unit: milliseconds
-#>                   expr   min  lq  mean median    uq   max neval
-#>  fast_erdos_rust(n, p) 663.3 674 691.1  683.9 701.2 743.5    10
+#>                   expr      min       lq     mean   median       uq     max
+#>  fast_erdos_rust(n, p) 631.8063 680.7119 713.5019 705.5559 741.6334 800.053
+#>  neval
+#>     10
 ```
 
 This even compares well with the implementation in igraph (although
@@ -117,8 +135,19 @@ igraph has a far more complete graph representation than this toy code):
 
 ``` r
 library(igraph)
+#> 
+#> Attaching package: 'igraph'
+#> The following object is masked from 'package:tidygraph':
+#> 
+#>     groups
+#> The following objects are masked from 'package:stats':
+#> 
+#>     decompose, spectrum
+#> The following object is masked from 'package:base':
+#> 
+#>     union
 microbenchmark(sample_gnp(n, p), times = 10)
 #> Unit: milliseconds
-#>              expr min    lq  mean median    uq   max neval
-#>  sample_gnp(n, p) 784 811.6 833.3  820.4 827.6 963.5    10
+#>              expr      min      lq     mean   median       uq      max neval
+#>  sample_gnp(n, p) 879.1468 935.587 983.8152 993.2981 1039.575 1062.192    10
 ```
