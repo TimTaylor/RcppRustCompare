@@ -4,7 +4,7 @@ context("erdos graph generation")
 test_that("Returned rcpp graph is correct size", {
   n <- 20
   p <- 0.4
-  graph <- compareloops::erdos_rcpp(n, p)
+  graph <- RcppRustCompare::erdos_rcpp(n, p)
   expect_equal(length(graph), n)
 })
 
@@ -12,7 +12,7 @@ test_that("Returned rcpp graph is correct size", {
 test_that("Returned rust graph is correct size", {
   n <- 20
   p <- 0.4
-  graph <- compareloops::erdos_rust(n, p)
+  graph <- RcppRustCompare::erdos_rust(n, p)
   expect_equal(length(graph), n)
 })
 
@@ -23,9 +23,9 @@ test_that("rcpp implementation gives same answer as r implementation", {
 
   # generate graphs
   set.seed(1)
-  graph_rcpp <- compareloops::erdos_rcpp(n, p)
+  graph_rcpp <- RcppRustCompare::erdos_rcpp(n, p)
   set.seed(1)
-  graph_r <- compareloops::erdos_r(n, p)
+  graph_r <- RcppRustCompare::erdos_r(n, p)
 
   # expect
   expect_equal(graph_rcpp, graph_r)
