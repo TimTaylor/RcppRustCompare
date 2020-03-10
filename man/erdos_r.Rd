@@ -24,5 +24,5 @@ the probability of any two nodes being connected, \code{p}.  Self and
 repeated edges are not permitted.
 }
 \examples{
-gr <- erdos_list(1000, 10)
+gr <- erdos_r(1000, 10)
 }

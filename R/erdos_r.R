@@ -11,7 +11,7 @@
 #' @param p probability of edge between two nodes.
 #' @return adjacency list representation of the resultant network
 #' @examples
-#' gr <- erdos_list(1000, 10)
+#' gr <- erdos_r(1000, 10)
 erdos_r <- function(n, p) {
     network <- vector("list", n)
     # initialise list for better behaviour and compatibility with c++ code

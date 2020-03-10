@@ -2,12 +2,17 @@ Package: RcppRustCompare
 Type: Package
 Title: Quick comparison of Rust and Rcpp implementation
 Version: 0.0.0.9
-Date: 2020-03-05
-Author: Tim Taylor
-Maintainer: Tim Taylor <tjtnew@gmail.com>
+Authors@R: 
+    person(given = "Tim",
+           family = "Taylor",
+           role = c("aut", "cre"),
+           email = "tjtnew@gmail.com")
 Description: Compares and Erdos-Renyi random graph implementation in both Rust
     and Rcpp.
 License: MIT + file LICENSE
+URL: https://github.com/tjtnew/RcppRustCompare
+BugReports: https://github.com/tjtnew/RcppRustCompare
+SystemRequirements: Cargo (rustc package manager)
 Imports: Rcpp (>= 1.0.3)
 LinkingTo: Rcpp
 RoxygenNote: 7.0.2
