@@ -1,4 +1,4 @@
 library(testthat)
-library(compareloops)
+library(RcppRustCompare)
 
-test_check("compareloops")
+test_check("RcppRustCompare")
